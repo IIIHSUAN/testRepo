@@ -1,0 +1,117 @@
+﻿;
+(function ($, window, document, undefined) {
+    $(function () {
+        $(document).on('click', '[data-compare-click]', function (e) {
+            let $this = $(this);
+            let type = $this.data('compare-click');
+            let api = '/api/sc/Comparison/';
+            let id = $this.data('compare-id');
+            let event = {
+                add: function () {
+                    $.post(api + 'add', { id: id }).done(function (result) {
+                        switch (result.HttpStatus) {
+                            case 200:
+                                addCompareItem(result.Body);
+                                setTitleCount();
+                                break;
+                            case 400:
+                                $this.prop('checked', false);
+                                alert(result.Error.Message);
+                                break;
+                            case 403:
+                                break;
+                            default:
+                        }
+                    }).always(function () {
+                    });
+                },
+                delete: function (fn) {
+                    $.post(api + 'delete', { id: id }).done(function (result) {
+                        if (result.HttpStatus === 200) {
+                            let $item = $('[data-compare-item="' + result.Body + '"]');
+                            $item.addClass('deleteout');
+
+                            $('[data-compare-checkbox="' + result.Body + '"]').prop('checked', false);
+                            setTimeout(function () {
+                                $item.remove();
+                                if (fn) {
+                                    fn($this);
+                                }
+                            }, 100);
+                        }
+                    });
+                },
+                deleteAll: function (fn) {
+                    $.post(api + 'DeleteAll').done(function (result) {
+                        if (result.HttpStatus === 200) {
+                            for (var i = 0; i < result.Body; i++) {
+                                $('[data-compare-checkbox="' + i + '"]').prop('checked', false);
+                            }
+                            if (fn) {
+                                fn();
+                            }
+                        }
+                    });
+                }
+            };
+
+            switch (type) {
+                case 'add':
+                    let $block = $('[data-compare="block"]');
+
+                    if ($this.prop('checked')) {
+                        event.add();
+                        $block.addClass('show');
+                    } else {
+                        event.delete();
+                        $block.removeClass('show');
+                    }
+
+                    break;
+                case 'delete':
+                    event.delete(addEmptyCompareItem);
+                    break;
+                case 'delete-block':
+                    event.delete(setTitleCount);
+                    break;
+                case 'delete-all-block':
+                    event.deleteAll(setTitleCount);
+                    break;
+                default:
+                    break;
+            }
+        });
+    });
+
+    function setTitleCount() {
+        let $title = $('[data-compare="title"]');
+        let titleHtml = $title.data('text-template');
+
+        let count = $('[data-compare="item"]').length;
+        let htmlString = window.stringRender(titleHtml, { count: count });
+        $title.text(htmlString);
+    }
+
+    function addCompareItem(result) {
+        let htmlTemplate = $('#compare-template').html();
+        let htmlString = window.stringRender(htmlTemplate, responseData(result));
+        $('[data-compare="items"]').append(htmlString);
+    }
+
+    function addEmptyCompareItem($this) {
+        let self = $this;
+        let item = self.closest('.item');
+        item.remove();
+        let html = $('#emptyCompareItem').html();
+        $('.compareset').append(html);
+    }
+
+    function responseData(result) {
+        return {
+            id: result.Id,
+            image: result.Image,
+            title: result.Title,
+            link: result.Link
+        };
+    }
+})(jQuery, window, document);

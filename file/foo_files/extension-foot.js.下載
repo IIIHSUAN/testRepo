@@ -1,0 +1,132 @@
+﻿; (function ($, window, document, undefined) {
+    'use strict';
+
+    //// 用法: eventBind('click', selector, foo, 1000);
+    /**
+    * 事件綁定
+    * @param {String} eventName 事件名稱
+    * @param {String} ele 觸發元素
+    * @param {Function} fn 延遲調用函數
+    * @param {Number} delay 延遲時間
+    */
+    let eventBind = function (eventName, ele, fn, delay) {
+        $(document).on(eventName, ele, function (e) {
+            window.throttle(fn, delay);
+        });
+    };
+
+    //// 用法: eventBindClosure('click', selector, foo, arg1, arg2);
+    /**
+    * 閉包節流函數方法 (可傳參數)
+    * @param {String} eventName 事件名稱
+    * @param {String} ele 觸發元素
+    * @param {Function} fn 延遲調用函數
+    */
+    let eventBindClosure = function (eventName, ele, fn) {
+        let t = window.throttleClosure(fn);
+        let args = Array.prototype.slice.call(arguments, 3);
+        $(document).on(eventName, ele, function (e) {
+            t.apply(this, args);
+        });
+    };
+
+    let eventsHandler = function () {
+        this.eventBinding();
+    };
+    eventsHandler.prototype.eventBinding = function () {
+        let els = document.querySelectorAll('[data-event]');
+        for (let ix = 0, length = els.length; ix < length; ++ix) {
+            let el = els[ix];
+            let actions = el.dataset.event;
+            if (!actions) {
+                continue;
+            }
+            this.event(el, actions);
+        }
+    };
+    eventsHandler.prototype.event = function (target, actions) {
+        let actList = actions.split(",");
+        for (let i = 0, l = actList.length; i < l; ++i) {
+            if (actList[i].substr(0, 2) === "g-") {
+                let action = actList[i];
+                switch (action) {
+                    case 'g-move':
+                        new fnHtmlMoveEvent(target);
+                        break;
+                    case 'g-clone':
+                        new fnHtmlCloneEvent(target);
+                        break;
+                    case "g-tabbed":
+                        new fnTabbed(target);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    };
+    let fnTabbed = function (target) {
+        let _$this = $(target);
+        let _uid = _$this.data('g-tabbed-uid');
+        let _defaulShow = _$this.data('g-tabbed-default');
+
+        let click = function (e) {
+            let $this = $(this);
+            let key = $this.data('g-tabbed-trigger');
+            let clickElements = document.querySelectorAll('[data-g-tabbed-click="' + _uid + '"]');
+            let contentElements = document.querySelectorAll('[data-g-tabbed-content="' + _uid + '"]');
+
+            Array.prototype.forEach.call(clickElements, function (node) {
+                $(node).siblings('.selected').removeClass('selected');
+            });
+
+            Array.prototype.forEach.call(clickElements, function (node) {
+                let $node = $(node);
+                if ($node.data('g-tabbed-trigger') === key) {
+                    $node.addClass('selected');
+                }
+            });
+
+            Array.prototype.forEach.call(contentElements, function (node) {
+                $(node).css('display', 'none');
+            });
+            Array.prototype.forEach.call(contentElements, function (node) {
+                let $node = $(node);
+                if ($node.data('g-tabbed-trigger') === key) {
+                    $node.fadeIn();
+                }
+            });
+
+            window.stopDefault(e);
+        };
+
+        _$this.on('click', '[data-g-tabbed-click]', click);
+        let $tabbed = $('[data-g-tabbed-click]');
+        if ($tabbed.length > 0) {
+            $tabbed[_defaulShow].click();
+        }
+    };
+    let fnHtmlMoveEvent = function (target) {
+        console.log('fnHtmlMoveEvent');
+        let $this = $(target);
+        let selector = $this.data('g-move-selector');
+        let $element = $(selector);
+        if ($element.length > 0) {
+            $element.eq(0).append($this);
+        }
+    };
+
+    let fnHtmlCloneEvent = function (target) {
+        console.log('fnHtmlCloneEvent');
+        let $this = $(target);
+        let $clone = $this.clone(true);
+        let selector = $this.data('g-clone-selector');
+        let $element = $(selector);
+        if ($element.length > 0) {
+            $element.eq(0).append($clone);
+        }
+    };
+    $(function () {
+        new eventsHandler();
+    });
+})(jQuery, window, document);

@@ -1,0 +1,151 @@
+﻿; (function ($, window, document, undefined) {
+    'use strict';
+    //--- 分頁
+    let paginationView = {
+        number: function (pagination, number) {
+            let num = number;
+            var link = $('<a href="#">');
+            link.html(num);
+            link.bind('click', function () {
+                pagination.changePage('number', num);
+                return false;
+            });
+            return link;
+        },
+        button: function (pagination, element) {
+            let $element = $(element);
+            $element.bind("click", function (evt) {
+                var $target = $(this);
+                var action = $target.data("pagination-click");
+                pagination.changePage(action);
+                return false;
+            });
+        }
+    };
+    let pagination = function ($target) {
+        this.self = $target;
+        this.pagerKey = this.self.data('pagination');
+        this.currentPage = 1;
+        this.init();
+    };
+    pagination.prototype.init = function () {
+        let size = this.self.data("pagination-size") || 1;
+
+        this.$datas = $('[data-pagination-data="' + this.pagerKey + '"]') || {};
+        let total = this.$datas.length;
+
+        this.totalPages = Math.ceil(total % size === 0 ? total / size : total / size);
+        this.pageSize = size;
+
+        this.$paginate = $('[data-pagination-nav="' + this.pagerKey + '"]');
+        let $pageBtn = this.$paginate.find('[data-pagination-click]');
+        this.$pages = this.$paginate.find('[data-pagination="pages"]');
+
+        for (let i = 1, length = this.totalPages; i <= length; i++) {
+            this.$pages.append(paginationView.number(this, i));
+        }
+        for (let i = 0, length = $pageBtn.length; i < length; i++) {
+            paginationView.button(this, $pageBtn[i]);
+        }
+
+        this.changStyle(1);
+        this.changeContent(1);
+    };
+
+    pagination.prototype.reload = function () {
+        this.$pages.html('');
+        this.init();
+    };
+    pagination.prototype.changePage = function (type, page) {
+        let prevPage = this.currentPage;
+        let nowPage = page || prevPage;
+        let totalPages = this.totalPages;
+        let click = {
+            'first': function () {
+                nowPage = 1;
+            },
+            'next': function () {
+                if (prevPage !== totalPages) {
+                    nowPage = prevPage + 1;
+                }
+            },
+            'prev': function () {
+                if (prevPage !== 1) {
+                    nowPage = prevPage - 1;
+                }
+            },
+            'last': function () {
+                nowPage = totalPages;
+            },
+            'number': function () {
+                nowPage = page;
+            }
+        };
+        (click[type] || click['first'])();
+
+        this.changStyle(nowPage, prevPage);
+        this.changeContent(nowPage);
+        this.currentPage = nowPage;
+
+        return page;
+    };
+    pagination.prototype.changStyle = function (nowPage, prevPage) {
+        let activeClass = 'selected';
+        let $numbers = this.$pages.find('a');
+        $numbers[nowPage - 1].classList.add(activeClass);
+        if (!!prevPage && nowPage !== prevPage) {
+            $numbers[prevPage - 1].classList.remove(activeClass);
+        }
+
+        let $element = this.$paginate;
+        let eleFirst = $element.find('[data-pagination-click="first"]')[0];
+        let eleNext = $element.find('[data-pagination-click="next"]')[0];
+        let elePrev = $element.find('[data-pagination-click="prev"]')[0];
+        let eleLast = $element.find('[data-pagination-click="last"]')[0];
+
+        let setVisibility = function (ele, value) {
+            if (!ele) {
+                return false;
+            }
+
+            ele.style.visibility = value;
+        };
+
+        setVisibility(eleFirst, 'visible');
+        setVisibility(eleNext, 'visible');
+        setVisibility(elePrev, 'visible');
+        setVisibility(eleLast, 'visible');
+
+        if (nowPage === 1) {
+            setVisibility(eleFirst, 'hidden');
+            setVisibility(elePrev, 'hidden');
+        }
+        if (nowPage === this.totalPages) {
+            setVisibility(eleNext, 'hidden');
+            setVisibility(eleLast, 'hidden');
+        }
+    };
+    pagination.prototype.changeContent = function (page) {
+        let seq = 1;
+        let nowPage = page;
+        let pageSize = this.pageSize;
+        this.$datas.each(function () {
+            let _before = (nowPage - 1) * pageSize + 1;
+            let _after = nowPage * pageSize + 1;
+            if (_before <= seq && seq < _after) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+            seq++;
+        });
+
+        return true;
+    };
+
+    window.Pagination = function ($target) {
+        return new pagination($target);
+    };
+    window.Pagination2 = pagination;
+})(window.jQuery || {}, window, document);
+//#EOF

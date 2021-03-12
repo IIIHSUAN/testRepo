@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <clipPath id="clip-icon-robo-advisor">
+      <rect width="128" height="128"/>
+    </clipPath>
+  </defs>
+  <g id="icon-robo-advisor" clip-path="url(#clip-icon-robo-advisor)">
+    <g id="Group_481" data-name="Group 481" transform="translate(11.49 12.63)">
+      <path id="Path_105_1_" d="M53.09,55.51h0A35.393,35.393,0,0,0,17.8,90.8v15.31H88.37V90.8A35.423,35.423,0,0,0,53.09,55.51Z" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+      <text id="_" data-name="$" transform="translate(43.744 35.37)" fill="#333" font-size="35.597" font-family="KohinoorBangla-Bold, Kohinoor Bangla" font-weight="700"><tspan x="0" y="0">$</tspan></text>
+      <g id="Group_476" data-name="Group 476">
+        <circle id="Ellipse_13" data-name="Ellipse 13" cx="5.3" cy="5.3" r="5.3" transform="translate(30.72 79.27)" fill="#333"/>
+        <circle id="Ellipse_14" data-name="Ellipse 14" cx="5.3" cy="5.3" r="5.3" transform="translate(47.79 79.27)" fill="#333"/>
+        <circle id="Ellipse_15" data-name="Ellipse 15" cx="5.3" cy="5.3" r="5.3" transform="translate(64.85 79.27)" fill="#333"/>
+      </g>
+      <g id="Group_477" data-name="Group 477">
+        <path id="Path_327" data-name="Path 327" d="M23.72,31.44H13.89c-.17,0-.3-.08-.3-.18V16.51" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.017"/>
+        <path id="Path_328" data-name="Path 328" d="M82.45,31.44h9.83c.17,0,.3-.08.3-.18V16.51" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.017"/>
+      </g>
+      <g id="Group_478" data-name="Group 478">
+        <path id="Path_329" data-name="Path 329" d="M23.72,22.74H13.89c-.17,0-.3-.08-.3-.18V7.81" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.017"/>
+        <path id="Path_330" data-name="Path 330" d="M82.45,22.74h9.83c.17,0,.3-.08.3-.18V7.81" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.017"/>
+      </g>
+      <path id="Path_331" data-name="Path 331" d="M73.64,41.98H32.54a8.024,8.024,0,0,1-8-8V11.51a8.024,8.024,0,0,1,8-8h41.1a8.024,8.024,0,0,1,8,8V33.98A8.024,8.024,0,0,1,73.64,41.98Z" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.017"/>
+      <line id="Line_167" data-name="Line 167" x2="10.24" transform="translate(47.97 50.74)" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.017"/>
+      <line id="Line_168" data-name="Line 168" x2="10.24" transform="translate(47.97 44.98)" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.017"/>
+      <g id="Group_479" data-name="Group 479">
+        <circle id="Ellipse_39_2_" cx="6.48" cy="6.48" r="6.48" stroke-width="8" transform="translate(6.42 60.14)" stroke="#333" stroke-linecap="round" stroke-linejoin="round" fill="#fff"/>
+        <line id="Line_169" data-name="Line 169" x1="5" y2="33.96" transform="translate(3.51 72.1)" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.017"/>
+      </g>
+      <g id="Group_480" data-name="Group 480">
+        <circle id="Ellipse_39_1_" cx="6.48" cy="6.48" r="6.48" stroke-width="8" transform="translate(87.24 60.14)" stroke="#333" stroke-linecap="round" stroke-linejoin="round" fill="#fff"/>
+        <line id="Line_170" data-name="Line 170" x2="5" y2="33.96" transform="translate(98.11 72.1)" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.017"/>
+      </g>
+    </g>
+  </g>
+</svg>
