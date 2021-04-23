@@ -62,6 +62,10 @@
 		
 		function myFunction() {
 			front = !front;
+			navigator.mediaDevices
+		  	.getUserMedia(mediaStreamConstraints)
+		  	.then(gotLocalMediaStream)
+		  	.catch(handleMediaStreamError);
 		}
 	</script>
 </head>
