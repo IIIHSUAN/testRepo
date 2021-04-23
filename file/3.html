@@ -59,14 +59,16 @@
 		  .getUserMedia(mediaStreamConstraints)
 		  .then(gotLocalMediaStream)
 		  .catch(handleMediaStreamError)
-		
-		document.getElementById("btn").onclick = function() {
-			front = !front;
-			alert(front);
-		};
 	</script>
 </head>
 <body>
 	<div><button id="btn" onclick="myFunction()">front/back</button></div>
 	<!--div><video autoplay></video></div-->
+	
+	<script>
+		function myFunction() {
+			front = !front;
+			alert(front);
+		}
+	</script>
 </html>
