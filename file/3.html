@@ -59,9 +59,14 @@
 		  .getUserMedia(mediaStreamConstraints)
 		  .then(gotLocalMediaStream)
 		  .catch(handleMediaStreamError)
+		
+		function myFunction() {
+			front = !front;
+		}
 	</script>
 </head>
 <body>
 	<video autoplay></video>
+	<button onclick="myFunction()">front/back</button>
 </body>
 </html>
