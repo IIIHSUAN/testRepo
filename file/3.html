@@ -25,7 +25,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-		var front = false;
+		var front = true;
 		var mediaStreamConstraints = {
 			video: {
 				frameRate: { ideal: 10, max: 15 },
@@ -62,11 +62,6 @@
 		
 		function myFunction() {
 			front = !front;
-			
-			navigator.mediaDevices
-		  	.getUserMedia(mediaStreamConstraints)
-		  	.then(gotLocalMediaStream)
-		  	.catch(handleMediaStreamError);
 		}
 	</script>
 </head>
